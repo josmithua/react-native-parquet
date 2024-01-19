@@ -264,16 +264,17 @@ function decodeValues_FIXED_LEN_BYTE_ARRAY(
   opts: Options
 ) {
   let values = [];
-
-  if (!opts.typeLength) {
+  const typeLength =
+    opts.typeLength ?? (opts.column ? opts.column.typeLength : undefined);
+  if (!typeLength) {
     throw "missing option: typeLength (required for FIXED_LEN_BYTE_ARRAY)";
   }
 
   for (let i = 0; i < count; ++i) {
     values.push(
-      cursor.buffer.slice(cursor.offset, cursor.offset + opts.typeLength)
+      cursor.buffer.slice(cursor.offset, cursor.offset + typeLength)
     );
-    cursor.offset += opts.typeLength;
+    cursor.offset += typeLength;
   }
 
   return values;
