@@ -205,7 +205,6 @@ function decodeValues_DOUBLE(cursor: Cursor, count: number) {
   return values;
 }
 
-// Waylands reminder to check again
 function encodeValues_BYTE_ARRAY(values: Array<Uint8Array>) {
   let buf_len = 0;
   const returnedValues: Array<Buffer> = [];
@@ -231,7 +230,7 @@ function decodeValues_BYTE_ARRAY(cursor: Cursor, count: number) {
   for (let i = 0; i < count; ++i) {
     let len = cursor.buffer.readUInt32LE(cursor.offset);
     cursor.offset += 4;
-    values.push(cursor.buffer.slice(cursor.offset, cursor.offset + len));
+    values.push(cursor.buffer.subarray(cursor.offset, cursor.offset + len));
     cursor.offset += len;
   }
 
@@ -272,7 +271,7 @@ function decodeValues_FIXED_LEN_BYTE_ARRAY(
 
   for (let i = 0; i < count; ++i) {
     values.push(
-      cursor.buffer.slice(cursor.offset, cursor.offset + typeLength)
+      cursor.buffer.subarray(cursor.offset, cursor.offset + typeLength)
     );
     cursor.offset += typeLength;
   }
