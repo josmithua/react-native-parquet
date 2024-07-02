@@ -1,18 +1,19 @@
 {
-  "name": "@dsnp/parquetjs",
-  "description": "fully asynchronous, pure JavaScript implementation of the Parquet file format",
+  "name": "react-native-parquet",
+  "description": "React Native compatible pure JavaScript implementation of the Parquet file format",
   "main": "dist/parquet.js",
   "types": "dist/parquet.d.ts",
   "version": "0.0.0",
-  "homepage": "https://github.com/LibertyDSNP/parquetjs",
+  "homepage": "https://github.com/josmithua/react-native-parquet",
   "license": "MIT",
   "keywords": [
     "dremel",
-    "parquet"
+    "parquet",
+    "react-native"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/LibertyDSNP/parquetjs.git"
+    "url": "git://github.com/josmithua/react-native-parquet.git"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.575.0",
