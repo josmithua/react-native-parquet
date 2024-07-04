@@ -1,13 +1,13 @@
-import { TTransportCallback } from "thrift";
-import thrift from "thrift"
-import fs, { WriteStream } from 'fs'
-import * as parquet_thrift from '../gen-nodejs/parquet_types'
-import { FileMetaDataExt, WriterOptions } from './declare'
-import { Int64 } from "thrift";
-import { type } from "os";
+import { appendFile, read, stat } from "@dr.pogodin/react-native-fs";
+import thrift, { Int64, TTransportCallback } from "thrift";
+import * as parquet_thrift from '../gen-nodejs/parquet_types';
+import { FileMetaDataExt, WriterOptions } from './declare';
 
 // Use this so users only need to implement the minimal amount of the WriteStream interface
-export type WriteStreamMinimal = Pick<WriteStream, "write" | "end">;
+export type WriteStreamMinimal = {
+  write: (buf: Buffer) => Promise<void>;
+  end: () => Promise<void>;
+};
 
 /**
  * We need to patch Thrift's TFramedTransport class bc the TS type definitions
@@ -100,92 +100,40 @@ export const getThriftEnum = function(klass: Enums, value: unknown) {
   throw 'Invalid ENUM value';
 }
 
-export const fopen = function(filePath: string | Buffer | URL): Promise<number> {
-  return new Promise((resolve, reject) => {
-    fs.open(filePath, 'r', (err, fd) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(fd);
-      }
-    })
-  });
+export const fopen = async (filePath: string): Promise<string> => {
+  return filePath;
 }
 
-export const fstat = function(filePath: string | Buffer | URL): Promise<fs.Stats> {
-  return new Promise((resolve, reject) => {
-    fs.stat(filePath, (err, stat) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(stat);
-      }
-    })
-  });
+export const fstat = async (filePath: string): Promise<{size:number}> => {
+  return await stat(filePath);
 }
 
-export const fread = function(fd: number, position: number | null, length: number): Promise<Buffer> {
-  let buffer = Buffer.alloc(length);
-
-  return new Promise((resolve, reject) => {
-    fs.read(fd, buffer, 0, length, position, (err, bytesRead, buf) => {
-      if (err || bytesRead != length) {
-        reject(err || Error('read failed'));
-      } else {
-        resolve(buf);
-      }
-    });
-  });
+export const fread = async (filePath: string, position: number, length: number): Promise<Buffer> => {
+  const str = await read(filePath, length, position, {encoding: 'base64'});
+  return Buffer.from(str, 'base64');
 }
 
-export const fclose = function(fd: number) {
-  return new Promise((resolve, reject) => {
-    fs.close(fd, (err) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(err);
-      }
-    });
-  });
+export const fclose = async (filePath: string) => {
+  // noop
 }
 
-export const oswrite = function(os: WriteStreamMinimal, buf: Buffer) {
-  return new Promise((resolve, reject) => {
-    os.write(buf, (err: Error | undefined | null) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(err);
-      }
-    });
-  });
+export const oswrite = async (os: WriteStreamMinimal, buf: Buffer) => {
+  await os.write(buf);
 }
 
-export const osend = function(os: WriteStreamMinimal) {
-  return new Promise((resolve, reject) => {
-    os.end((err: Error) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(err);
-      }
-    });
-  });
+export const osend = async (os: WriteStreamMinimal) => {
+  await os.end();
 }
 
-export const osopen = function(path: string | Buffer | URL, opts?: WriterOptions): Promise<WriteStream> {
-  return new Promise((resolve, reject) => {
-    let outputStream = fs.createWriteStream(path, opts);
-
-    outputStream.on('open', function(fd) {
-      resolve(outputStream);
-    });
-
-    outputStream.on('error', function(err) {
-      reject(err);
-    });
-  });
+export const osopen = async (path: string, opts?: WriterOptions): Promise<WriteStreamMinimal> => {
+  return {
+    write: async (buf: Buffer) => {
+      await appendFile(path, buf.toString('base64'), {encoding: 'base64'});
+    },
+    end: async () => {
+      // noop
+    }
+  };
 }
 
 export const fieldIndexOf = function(arr: Array<Array<unknown>>, elem: Array<unknown>) {

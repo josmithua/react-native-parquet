@@ -133,7 +133,7 @@ export class ParquetReader {
    * Open the parquet file pointed to by the specified path and return a new
    * parquet reader
    */
-  static async openFile(filePath: string | Buffer | URL, options?: BufferReaderOptions) {
+  static async openFile(filePath: string, options?: BufferReaderOptions) {
     let envelopeReader = await ParquetEnvelopeReader.openFile(filePath, options);
     return this.openEnvelopeReader(envelopeReader, options);
   }
@@ -418,7 +418,7 @@ export class ParquetEnvelopeReader {
   metadata?: FileMetaDataExt;
   schema?: parquet_schema.ParquetSchema
 
-  static async openFile(filePath: string | Buffer | URL, options?: BufferReaderOptions) {
+  static async openFile(filePath: string, options?: BufferReaderOptions) {
     let fileStat = await parquet_util.fstat(filePath);
     let fileDescriptor = await parquet_util.fopen(filePath);
 

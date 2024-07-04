@@ -9,14 +9,12 @@
     "noImplicitAny": true,
     "outDir": "dist",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
     "target": "ESNext",
-    "typeRoots": [
-      "node_modules/@types",
-      "gen-nodejs",
-    ]
+    "typeRoots": ["node_modules/@types", "gen-nodejs"]
   },
-  "include":  ["parquet.ts","lib/**/*", "gen-nodejs/*", "browser/*.ts"],
+  "include": ["parquet.ts", "lib/**/*", "gen-nodejs/*"],
   "files": ["lib/custom.d.ts"]
 }

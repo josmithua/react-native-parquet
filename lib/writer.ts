@@ -60,7 +60,7 @@ export class ParquetWriter {
    * Convenience method to create a new buffered parquet writer that writes to
    * the specified file
    */
-  static async openFile(schema: ParquetSchema, path: string | Buffer | URL, opts?: WriterOptions) {
+  static async openFile(schema: ParquetSchema, path: string, opts?: WriterOptions) {
     let outputStream = await parquet_util.osopen(path, opts);
     return ParquetWriter.openStream(schema, outputStream, opts);
   }

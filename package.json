@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.575.0",
+    "@dr.pogodin/react-native-fs": "^2.27.1",
     "@types/long": "^4.0.2",
     "@types/node-int64": "^0.4.32",
     "@types/thrift": "^0.10.17",
@@ -36,7 +37,7 @@
     "@types/chai": "^4.3.16",
     "@types/json-schema": "^7.0.15",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.12.12",
+    "@types/node": "^20.14.9",
     "@types/sinon": "^17.0.3",
     "@types/varint": "^6.0.3",
     "assert": "^2.1.0",
@@ -70,6 +71,7 @@
     "test:only": "mocha",
     "clean": "rm -Rf ./dist",
     "prepublishOnly": "npm run clean && npm run build:node && npm run build:types && npm run build:browser",
+    "prepare": "npm run clean && npm run build:node && npm run build:types",
     "thrift": "thrift -out gen-nodejs --gen js:ts parquet.thrift && thrift -out gen-nodejs --gen js:node parquet.thrift",
     "serve": "node esbuild-serve.js"
   },
