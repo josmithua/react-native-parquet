@@ -81,7 +81,6 @@
     "fs": "browserfs",
     "path": "path-browserify",
     "stream": "readable-stream",
-    "thrift": "./node_modules/thrift/lib/nodejs/lib/thrift/browser.js",
     "util": "util",
     "zlib": "browserify-zlib"
   },
