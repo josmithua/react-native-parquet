@@ -1,37 +1,37 @@
-import Int64 from 'node-int64';
-import parquet_thrift from '../gen-nodejs/parquet_types';
-import * as parquet_shredder from './shred';
-import * as parquet_util from './util';
-import * as parquet_schema from './schema';
-import * as parquet_codec from './codec';
-import * as parquet_compression from './compression';
-import * as parquet_types from './types';
-import BufferReader, {BufferReaderOptions} from './bufferReader';
-import * as bloomFilterReader from './bloomFilterIO/bloomFilterReader';
-import fetch from 'cross-fetch';
-import {
-  ParquetCodec,
-  Parameter,
-  PageData,
-  SchemaDefinition,
-  ParquetType,
-  FieldDefinition,
-  ParquetField,
-  ClientS3,
-  ClientParameters,
-  FileMetaDataExt,
-  NewPageHeader,
-  RowGroupExt,
-  ColumnChunkExt
-} from './declare';
-import {Cursor, Options} from './codec/types';
 import {
   GetObjectCommand,
   HeadObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import type { Readable } from "stream";
 import type { Blob } from "buffer";
+import fetch from 'cross-fetch';
+import Int64 from 'node-int64';
+import type { Readable } from "readable-stream";
+import parquet_thrift from '../gen-nodejs/parquet_types';
+import * as bloomFilterReader from './bloomFilterIO/bloomFilterReader';
+import BufferReader, { BufferReaderOptions } from './bufferReader';
+import * as parquet_codec from './codec';
+import { Cursor, Options } from './codec/types';
+import * as parquet_compression from './compression';
+import {
+  ClientParameters,
+  ClientS3,
+  ColumnChunkExt,
+  FieldDefinition,
+  FileMetaDataExt,
+  NewPageHeader,
+  PageData,
+  Parameter,
+  ParquetCodec,
+  ParquetField,
+  ParquetType,
+  RowGroupExt,
+  SchemaDefinition
+} from './declare';
+import * as parquet_schema from './schema';
+import * as parquet_shredder from './shred';
+import * as parquet_types from './types';
+import * as parquet_util from './util';
 
 const {
   getBloomFiltersFor,

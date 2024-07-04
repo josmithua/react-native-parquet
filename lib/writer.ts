@@ -1,4 +1,4 @@
-import stream from 'stream'
+import {Transform} from 'readable-stream'
 import parquet_thrift, {ConvertedType} from '../gen-nodejs/parquet_types'
 import * as parquet_shredder from './shred'
 import * as parquet_util from './util'
@@ -342,7 +342,7 @@ export class ParquetEnvelopeWriter {
 /**
  * Create a parquet transform stream
  */
-export class ParquetTransformer extends stream.Transform {
+export class ParquetTransformer extends Transform {
 
   writer: ParquetWriter;
 

@@ -7,7 +7,7 @@ const parquet = require('../parquet');
 const parquet_thrift = require('../gen-nodejs/parquet_types');
 const parquet_util = require('../lib/util');
 const objectStream = require('object-stream');
-const stream = require('stream')
+const {PassThrough} = require('readable-stream')
 const {expect} = require("chai");
 
 const TEST_NUM_ROWS = 10000;
@@ -118,7 +118,7 @@ async function writeTestFile(opts) {
 async function writeTestStream(opts) {
   let schema = mkTestSchema(opts);
 
-  var out = new stream.PassThrough()
+  var out = new PassThrough()
   let writer = await parquet.ParquetWriter.openStream(schema, out, opts)
   out.on('data', function(d){
   })
