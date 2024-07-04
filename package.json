@@ -22,7 +22,6 @@
     "@types/node-int64": "^0.4.32",
     "@types/thrift": "^0.10.17",
     "brotli-wasm": "^3.0.0",
-    "browserify-zlib": "^0.2.0",
     "bson": "6.7.0",
     "cross-fetch": "^4.0.0",
     "int53": "^1.0.0",
@@ -81,8 +80,7 @@
     "fs": "browserfs",
     "path": "path-browserify",
     "stream": "readable-stream",
-    "util": "util",
-    "zlib": "browserify-zlib"
+    "util": "util"
   },
   "engines": {
     "node": ">=18.18.2"

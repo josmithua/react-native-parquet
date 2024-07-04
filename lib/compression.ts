@@ -1,4 +1,3 @@
-import zlib from 'zlib'
 import snappy from 'snappyjs'
 import { compress as brotliCompress, decompress as brotliDecompress } from 'brotli-wasm'
 
@@ -18,10 +17,6 @@ export const PARQUET_COMPRESSION_METHODS: PARQUET_COMPRESSION_METHODS = {
   'UNCOMPRESSED': {
     deflate: deflate_identity,
     inflate: inflate_identity
-  },
-  'GZIP': {
-    deflate: deflate_gzip,
-    inflate: inflate_gzip
   },
   'SNAPPY': {
     deflate: deflate_snappy,
@@ -46,10 +41,6 @@ export async function deflate(method: string, value: unknown): Promise<Buffer> {
 
 function deflate_identity(value: ArrayBuffer | Buffer | Uint8Array) {
   return buffer_from_result(value);
-}
-
-function deflate_gzip(value: ArrayBuffer | Buffer | string) {
-  return zlib.gzipSync(value);
 }
 
 function deflate_snappy(value: ArrayBuffer | Buffer | Uint8Array) {
@@ -81,10 +72,6 @@ export async function inflate(method: string, value: unknown): Promise<Buffer> {
 
 async function inflate_identity(value: ArrayBuffer | Buffer | Uint8Array): Promise<Buffer> {
   return buffer_from_result(value);
-}
-
-async function inflate_gzip(value: Buffer | ArrayBuffer | string) {
-  return zlib.gunzipSync(value);
 }
 
 function inflate_snappy(value: ArrayBuffer | Buffer | Uint8Array) {

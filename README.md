@@ -16,71 +16,21 @@ of it back out efficiently. The Parquet format is based on [Google's Dremel pape
 
 ## Forked Notice
 
-This is a forked repository with code from various sources:
-- Primary source [ironSource](https://github.com/ironSource/parquetjs) [npm: parquetjs](https://www.npmjs.com/package/parquetjs)
-- Secondary source [ZJONSSON](https://github.com/ZJONSSON/parquetjs) [npm: parquetjs-lite](https://www.npmjs.com/package/parquetjs-lite)
+This is a fork of https://github.com/LibertyDSNP/parquetjs.
 
 ## Installation
 _parquet.js requires node.js >= 18.18.2_
 
 ```
-  $ npm install @dsnp/parquetjs
+  $ npm install git+https://github.com/josmithua/react-native-parquet.git#rn-compat
 ```
-
-### NodeJS
-To use with nodejs:
-```javascript
-import parquetjs from "@dsnp/parquetjs"
-```
-
-### Browser with Bundler
-To use in a browser with a bundler, depending on your needs, write the appropriate plugin or resolver to point to either the Common JS or ES Module version:
-```javascript
-// Common JS
-"node_modules/@dsnp/parquetjs/dist/browser/parquetjs.cjs"
-// ES Modules
-"node_modules/@dsnp/parquetjs/dist/browser/parquetjs.esm"
-```
-or:
-```javascript
-// Common JS
-import parquetjs from "@dsnp/parquetjs/dist/browser/parquetjs.cjs"
-// ES Modules
-import parquetjs from "@dsnp/parquetjs/dist/browser/parquetjs.esm"
-```
-
-### Browser Direct: ES Modules
-To use directly in the browser without a bundler using ES Modules:
-
-1. Build the package: `npm install && npm run build:browser`
-2. Copy to `dist/browser/parquetjs.esm.js` the server
-3. Use it in your html or other ES Modules:
-    ```html
-    <script type="module">
-      import parquetjs from '../parquet.esm.js';
-      // Use parquetjs
-    </script>
-    ```
-
-### Browser Direct: Plain Ol' JavaScript
-To use directly in the browser without a bundler or ES Modules:
-
-1. Build the package: `npm install && npm run build:browser`
-2. Copy to `dist/browser/parquetjs.js` the server
-2. Use the global `parquetjs` variable to access parquetjs functions
-   ```html
-   <script>
-    // console.log(parquetjs)
-    </script>
-    ```
 
 ## Usage: Writing files
 
-Once you have installed the parquet.js library, you can import it as a single
-module:
+Once you have installed the library, you can import it as a single module:
 
 ``` js
-var parquet = require('@dsnp/parquetjs');
+import parquet from "react-native-parquet";
 ```
 
 Parquet files have a strict schema, similar to tables in a SQL database. So,
@@ -91,7 +41,7 @@ is a simple example that shows how to instantiate a `ParquetSchema` object:
 
 ``` js
 // declare a schema for the `fruits` table
-var schema = new parquet.ParquetSchema({
+const schema = new parquet.ParquetSchema({
   name: { type: 'UTF8' },
   quantity: { type: 'INT64' },
   price: { type: 'DOUBLE' },
@@ -103,7 +53,7 @@ var schema = new parquet.ParquetSchema({
 ### Helper Functions
 
 ```js
-var schema = new parquet.ParquetSchema({
+const schema = new parquet.ParquetSchema({
   name: parquet.ParquetFieldBuilder.createStringField(),
   quantity: parquet.ParquetFieldBuilder.createIntField(64),
   price: parquet.ParquetFieldBuilder.createDoubleField(),
@@ -116,7 +66,7 @@ var schema = new parquet.ParquetSchema({
 
 ``` js
 // declare a schema for the `fruits` JSON Schema
-var schema = new parquet.ParquetSchema.fromJsonSchema({
+const schema = new parquet.ParquetSchema.fromJsonSchema({
   "type": "object",
   "properties": {
     "name": {
